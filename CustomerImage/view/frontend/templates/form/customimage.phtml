@@ -1,0 +1,33 @@
+<?php
+/** @var \Nxtech\CustomerImage\Block\Edit $block */
+$customImageValue = $block->getCustomerImage();
+$customerId = $block->getCustomerId();
+$profileImage = $block->getProfileImage();
+?>
+<div class="field custom-image">
+    <legend class="legend"><span><?= $block->escapeHtml(__('Profile Image')) ?></span></legend>
+        <div class="custom-image-inner">
+            <div class="control">
+                <input type="file" name="custom_image" id="custom_image" title="<?= $block->escapeHtml(__('Profile Image')) ?>" class="input-file" />
+                <?php if ($customImageValue): ?>
+                    <img src="<?= $customImageValue; ?>" class="profile-image" alt="Profile Image" />
+                <?php else: ?>
+                    <img src="<?= $profileImage; ?>" class="profile-image" alt="No Profile Image" />
+                <?php endif; ?>
+            </div>
+            <?php if ($customImageValue): ?>
+                <a href="javascript:void(0);" class="profile-delete action primary" data-customerid="<?= $customerId ?>">
+                        <?= $block->escapeHtml(__('Delete')) ?>
+                </a>
+            <?php endif; ?>
+        </div>
+</div>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "customimage": {
+                "deleteUrl" : "<?= $block->getCustomDeleteUrl(); ?>"
+            }
+        }
+}
+</script>

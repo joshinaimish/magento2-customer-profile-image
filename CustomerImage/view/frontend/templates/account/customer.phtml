@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var Magento\Customer\Block\Account\Customer $block */
+?>
+<?php
+$viewModel = $block->getData('viewModel');
+$customImageValue = $viewModel->getCustomerImage();
+$customerName = $viewModel->getCustomerName();
+$extraClass = '';
+if(!$customImageValue){
+    $extraClass = 'firstletter';
+}
+?>
+<?php if ($block->customerLoggedIn()) : ?>
+    <li class="customer-welcome">
+        <span class="customer-name"
+              role="link"
+              tabindex="0"
+              data-mage-init='{"dropdown":{}}'
+              data-toggle="dropdown"
+              data-trigger-keypress-button="true"
+              data-bind="scope: 'customer'">
+            <button type="button"
+                    class="action switch <?php echo $extraClass; ?>"
+                    tabindex="-1"
+                    data-action="customer-menu-toggle">
+                <?php if ($customImageValue): ?>
+                    <img src="<?= $customImageValue; ?>" class="header-profile-image" alt="Profile Image" height="30" width="30" />
+                <?php else: ?>
+                    <span><?= $block->escapeHtml(__($customerName)) ?></span>
+                <?php endif; ?>                
+            </button>
+        </span>
+        <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "customer": {
+                            "component": "Magento_Customer/js/view/customer"
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+        <?php if ($block->getChildHtml()) :?>
+            <div class="customer-menu" data-target="dropdown">
+                <?= $block->getChildHtml() ?>
+            </div>
+        <?php endif; ?>
+    </li>
+<?php endif; ?>
